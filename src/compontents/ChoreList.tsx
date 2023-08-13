@@ -66,7 +66,7 @@ const ChoreCard = ({ chore }: ChoreCardProps) => {
   return (
     <Card
       className={cn(
-        "cursor-pointer ring-offset-background transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none",
+        "cursor-pointer ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none",
         (deadlineHasPassed || progressValue > 90) && "bg-destructive"
       )}
     >
