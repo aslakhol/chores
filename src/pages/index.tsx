@@ -1,14 +1,10 @@
 import Head from "next/head";
 import { api } from "~/utils/api";
 import { SideMenu } from "../compontents/SideMenu";
-import { useEffect } from "react";
+import { ChoreList } from "../compontents/ChoreList";
 
 export default function Home() {
   const choresQuery = api.chore.getAll.useQuery();
-
-  useEffect(() => {
-    console.log(choresQuery.data, "choresQuery.data");
-  }, [choresQuery.data]);
 
   return (
     <>
@@ -16,7 +12,7 @@ export default function Home() {
         <title>Chores</title>
         <meta
           name="description"
-          content="An app to keep track of reccuring chores"
+          content="An app to keep track of recurring chores"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -27,6 +23,10 @@ export default function Home() {
           </h4>
           <SideMenu />
         </div>
+
+        {!choresQuery.isInitialLoading && choresQuery.isSuccess && (
+          <ChoreList chores={choresQuery.data} />
+        )}
       </main>
     </>
   );
