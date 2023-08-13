@@ -19,13 +19,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../../@/components/ui/popover";
-import { CalendarIcon, Divide } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../../@/components/ui/calendar";
 import { cn } from "../../@/lib/utils";
 import { format } from "date-fns";
 import { api } from "../utils/api";
+import { useRouter } from "next/router";
 
 export const NewChoreForm = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof choreDataSchema>>({
     resolver: zodResolver(choreDataSchema),
     defaultValues: {
@@ -37,8 +39,7 @@ export const NewChoreForm = () => {
   const createChoreMutation = api.chore.create.useMutation();
 
   const onSubmit: SubmitHandler<z.infer<typeof choreDataSchema>> = (values) => {
-    console.log(values);
-    createChoreMutation.mutate(values);
+    createChoreMutation.mutate(values, { onSuccess: () => router.push("/") });
   };
 
   return (
