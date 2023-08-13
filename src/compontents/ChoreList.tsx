@@ -7,7 +7,7 @@ import {
   CardContent,
   CardFooter,
 } from "../../@/components/ui/card";
-import { addDays, format, intervalToDuration } from "date-fns";
+import { addDays, format, intervalToDuration, isBefore } from "date-fns";
 import { Progress } from "../../@/components/ui/progress";
 import { cn } from "../../@/lib/utils";
 
@@ -61,11 +61,13 @@ const ChoreCard = ({ chore }: ChoreCardProps) => {
   const daysUntilDeadline = timeUntilDeadline.days ?? 0;
   const progressValue = 100 - (daysUntilDeadline / chore.intervalDays) * 100;
 
+  const deadlineHasPassed = isBefore(deadline, new Date());
+
   return (
     <Card
       className={cn(
         "cursor-pointer ring-offset-background transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none",
-        progressValue > 90 && "bg-destructive"
+        (deadlineHasPassed || progressValue > 90) && "bg-destructive"
       )}
     >
       <CardHeader>
@@ -79,7 +81,7 @@ const ChoreCard = ({ chore }: ChoreCardProps) => {
         <p>Interval (days): {chore.intervalDays}</p>
         <p>Deadline: {deadline.toLocaleDateString("en-GB", dateFormat)} </p>
         <div className="pt-2">
-          <Progress value={progressValue} />
+          <Progress value={deadlineHasPassed ? 100 : progressValue} />
         </div>
       </CardContent>
       <CardFooter className="flex flex-col">
