@@ -19,10 +19,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../../@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Divide } from "lucide-react";
 import { Calendar } from "../../@/components/ui/calendar";
 import { cn } from "../../@/lib/utils";
 import { format } from "date-fns";
+import { api } from "../utils/api";
 
 export const NewChoreForm = () => {
   const form = useForm<z.infer<typeof choreDataSchema>>({
@@ -33,9 +34,11 @@ export const NewChoreForm = () => {
       lastCompletedAt: new Date(),
     },
   });
+  const createChoreMutation = api.chore.create.useMutation();
 
   const onSubmit: SubmitHandler<z.infer<typeof choreDataSchema>> = (values) => {
     console.log(values);
+    createChoreMutation.mutate(values);
   };
 
   return (

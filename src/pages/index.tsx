@@ -1,11 +1,14 @@
 import Head from "next/head";
 import { api } from "~/utils/api";
-import { Nav } from "../compontents/Nav";
-import { Sheet } from "../../@/components/ui/sheet";
 import { SideMenu } from "../compontents/SideMenu";
+import { useEffect } from "react";
 
 export default function Home() {
   const choresQuery = api.chore.getAll.useQuery();
+
+  useEffect(() => {
+    console.log(choresQuery.data, "choresQuery.data");
+  }, [choresQuery.data]);
 
   return (
     <>
