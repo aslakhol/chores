@@ -27,6 +27,12 @@ export const SideMenu = () => {
             >
               Create new chore
             </Link>
+            <Link
+              className={buttonVariants({ variant: "outline" })}
+              href="/edit"
+            >
+              Edit chores
+            </Link>
           </SheetHeader>
         </SheetContent>
       </Sheet>
