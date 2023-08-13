@@ -24,7 +24,6 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../../@/components/ui/calendar";
 import { Label } from "../../@/components/ui/label";
 import { api } from "../utils/api";
-import { useQueryClient } from "@tanstack/react-query";
 
 const dateFormat = {
   day: "numeric",
