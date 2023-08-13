@@ -9,6 +9,7 @@ import {
 } from "../../@/components/ui/card";
 import { addDays, intervalToDuration } from "date-fns";
 import { Progress } from "../../@/components/ui/progress";
+import { cn } from "../../@/lib/utils";
 
 const dateFormat = {
   day: "numeric",
@@ -40,7 +41,12 @@ const Chore = ({ chore }: ChoreProps) => {
   const progressValue = 100 - (daysUntilDeadline / chore.intervalDays) * 100;
 
   return (
-    <Card className="cursor-pointer ring-offset-background transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none">
+    <Card
+      className={cn(
+        "cursor-pointer ring-offset-background transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none",
+        progressValue > 90 && "bg-destructive"
+      )}
+    >
       <CardHeader>
         <CardTitle>{chore.name}</CardTitle>
         <CardDescription>
