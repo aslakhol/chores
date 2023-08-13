@@ -6,6 +6,11 @@ export const choreRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.chore.findMany();
   }),
+  get: publicProcedure
+    .input(z.object({ choreId: z.string().cuid() }))
+    .query(({ input, ctx }) => {
+      return ctx.prisma.chore.findFirst({ where: { id: input.choreId } });
+    }),
   create: publicProcedure.input(choreDataSchema).mutation(({ input, ctx }) => {
     return ctx.prisma.chore.create({
       data: {
@@ -41,7 +46,7 @@ export const choreRouter = createTRPCRouter({
   edit: publicProcedure
     .input(
       z.object({
-        choreId: z.string().uuid(),
+        choreId: z.string().cuid(),
         newChore: choreDataSchema,
       })
     )

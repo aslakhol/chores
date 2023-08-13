@@ -2,10 +2,21 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { EditChoreForm } from "../../compontents/EditChoreForm";
 import { SideMenu } from "../../compontents/SideMenu";
+import { api } from "../../utils/api";
+import { useEffect } from "react";
 
 export default function Edit() {
   const router = useRouter();
   const { choreId } = router.query;
+
+  const choreQuery = api.chore.get.useQuery(
+    { choreId: choreId as string },
+    { enabled: !!choreId }
+  );
+
+  useEffect(() => {
+    console.log(choreQuery.data, "choreQuery.data");
+  }, [choreQuery.data]);
 
   return (
     <>
@@ -25,7 +36,11 @@ export default function Edit() {
           <SideMenu />
         </div>
         <div className="p-8">
-          <EditChoreForm />
+          {!choreQuery.isInitialLoading &&
+            choreQuery.isSuccess &&
+            choreQuery.data !== null && (
+              <EditChoreForm existingChore={choreQuery.data} />
+            )}
         </div>
       </main>
     </>

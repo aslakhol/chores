@@ -40,11 +40,18 @@ export const EditChoreForm = ({ existingChore }: Props) => {
     },
   });
   const editChoreMutation = api.chore.edit.useMutation();
+  const utils = api.useContext();
 
   const onSubmit: SubmitHandler<z.infer<typeof choreDataSchema>> = (values) => {
     editChoreMutation.mutate(
       { choreId: existingChore.id, newChore: values },
-      { onSuccess: () => router.push("/") }
+      {
+        onSuccess: () => {
+          void utils.chore.getAll.invalidate();
+          void utils.chore.get.invalidate();
+          void router.push("/");
+        },
+      }
     );
   };
 
