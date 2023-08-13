@@ -94,6 +94,7 @@ const ChoreCard = ({ chore }: ChoreCardProps) => {
 type ChoreDialogProps = { chore: Chore };
 
 export const ChoreDialog = ({ chore }: ChoreDialogProps) => {
+  const [open, setOpen] = useState(false);
   const [completedAt, setCompletedAt] = useState<Date | undefined>(new Date());
   const completeChoreMutation = api.chore.complete.useMutation();
 
@@ -106,18 +107,19 @@ export const ChoreDialog = ({ chore }: ChoreDialogProps) => {
         onSettled: () => {
           void utils.chore.getAll.invalidate();
           setCompletedAt(new Date());
+          setOpen(false);
         },
       }
     );
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>Complete chore</Button>
       </DialogTrigger>
       <DialogContent className="pt-8 sm:max-w-[425px]">
-        <Label className="pb-1">When was the chore completed</Label>
+        <Label className="block pb-1">When was the chore completed</Label>
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -146,6 +148,7 @@ export const ChoreDialog = ({ chore }: ChoreDialogProps) => {
         </Popover>
 
         <div className="grid gap-4 py-4"></div>
+        <Label className="block pb-1">Who completed the chore</Label>
         <DialogFooter className="flex flex-row justify-between gap-2">
           <Button
             className="flex-grow"
