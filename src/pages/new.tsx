@@ -1,16 +1,12 @@
 import Head from "next/head";
-import { api } from "~/utils/api";
-import { Nav } from "../compontents/Nav";
-import { Sheet } from "../../@/components/ui/sheet";
 import { SideMenu } from "../compontents/SideMenu";
+import { NewChoreForm } from "../compontents/NewChoreForm";
 
-export default function Home() {
-  const choresQuery = api.chore.getAll.useQuery();
-
+export default function New() {
   return (
     <>
       <Head>
-        <title>Chores</title>
+        <title>New chore</title>
         <meta
           name="description"
           content="An app to keep track of reccuring chores"
@@ -20,9 +16,12 @@ export default function Home() {
       <main>
         <div className="flex justify-between border-b border-black p-4 align-bottom">
           <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-            Chores
+            New chore
           </h4>
           <SideMenu />
+        </div>
+        <div className="p-8">
+          <NewChoreForm />
         </div>
       </main>
     </>
