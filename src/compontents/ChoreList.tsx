@@ -24,6 +24,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../../@/components/ui/calendar";
 import { Label } from "../../@/components/ui/label";
 import { api } from "../utils/api";
+import { getChoreProgressValues } from "../utils/chores";
 
 const dateFormat = {
   day: "numeric",
@@ -52,15 +53,8 @@ const Chore = ({ chore }: ChoreProps) => {
 type ChoreCardProps = { chore: Chore };
 
 const ChoreCard = ({ chore }: ChoreCardProps) => {
-  const deadline = addDays(chore.lastCompletedAt, chore.intervalDays);
-  const timeUntilDeadline = intervalToDuration({
-    start: new Date(),
-    end: deadline,
-  });
-  const daysUntilDeadline = timeUntilDeadline.days ?? 0;
-  const progressValue = 100 - (daysUntilDeadline / chore.intervalDays) * 100;
-
-  const deadlineHasPassed = isBefore(deadline, new Date());
+  const { deadline, deadlineHasPassed, progressValue } =
+    getChoreProgressValues(chore);
 
   return (
     <Card

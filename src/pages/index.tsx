@@ -2,9 +2,12 @@ import Head from "next/head";
 import { api } from "~/utils/api";
 import { SideMenu } from "../compontents/SideMenu";
 import { ChoreList } from "../compontents/ChoreList";
+import { sortChoresByDescendingProgressValue } from "../utils/chores";
 
 export default function Home() {
-  const choresQuery = api.chore.getAll.useQuery();
+  const choresQuery = api.chore.getAll.useQuery(undefined, {
+    select: (data) => data.sort(sortChoresByDescendingProgressValue),
+  });
 
   return (
     <>
